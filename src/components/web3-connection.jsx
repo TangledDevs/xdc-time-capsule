@@ -49,14 +49,7 @@ const Web3Connection = () => {
     }
   };
 
-  return (
-    <Button
-      onClick={browserWalletConnect}
-      className="bg-[#3056d3] text-white p-4 rounded-lg"
-    >
-      Connect Wallet
-    </Button>
-  );
+  return <Button onClick={browserWalletConnect}>Connect Wallet</Button>;
 };
 
 export default Web3Connection;

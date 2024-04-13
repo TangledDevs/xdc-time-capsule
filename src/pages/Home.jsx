@@ -7,11 +7,11 @@ import Create from "./Create";
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Hero />
       <Create />
       <MyMedia />
-      <Review />
+      {/* <Review /> */}
     </div>
   );
 };

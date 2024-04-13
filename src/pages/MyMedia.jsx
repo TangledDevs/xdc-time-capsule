@@ -1,6 +1,7 @@
 import { CircleCheckBig } from "lucide-react";
 import mediaImage from "../assets/media.png";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const MyMedia = () => {
   const media = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -14,7 +15,7 @@ const MyMedia = () => {
             <span>This is your time capsule</span>
           </div>
         </div>
-        <div className="mt-3 grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 gap-3 mt-3">
           {media.map((item, index) => (
             <img key={index} src={mediaImage} alt="media" />
           ))}
@@ -24,16 +25,16 @@ const MyMedia = () => {
         </Button>
       </div>
       <div className="flex flex-col text-[#637381] bg-white px-12 py-10 gap-3">
-        <h1 className="text-black font-bold text-2xl">
+        <h1 className="text-2xl font-bold text-black">
           Who will get this capsule
         </h1>
-        <p className="text-black font-semibold text-xl">Sender info</p>
+        <p className="text-xl font-semibold text-black">Sender info</p>
         <span className="text-sm">Email</span>
         {/* <input
           type="email"
           name="email"
           id="email"
-          className="border-none p-2"
+          className="p-2 border-none"
           required
         /> */}
         <p>example@yourmail.com</p>
@@ -42,11 +43,11 @@ const MyMedia = () => {
           type="text"
           name="EN"
           id="EN"
-          className="border-none p-2"
+          className="p-2 border-none"
           required
         /> */}
         <p>mytest.eth</p>
-        <p className="text-black font-semibold text-xl">Receiver info</p>
+        <p className="text-xl font-semibold text-black">Receiver info</p>
         <span className="mt-3 text-sm">Name or nickname*</span>
         <p>Adam Gelius</p>
         <span className="mt-3 text-sm">Email</span>
@@ -57,7 +58,9 @@ const MyMedia = () => {
         <p>mytest.eth</p>
         <span className="mt-3 text-sm">Date</span>
         <p>24/12/2090</p>
-        <Button className="bg-[#3056d3] text-white py-4 px-7">Continue</Button>
+        <Link to="/review">
+          <Button className="w-full">Continue</Button>
+        </Link>
       </div>
     </div>
   );
