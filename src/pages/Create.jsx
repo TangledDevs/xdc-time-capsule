@@ -1,6 +1,14 @@
-import { CircleCheckBig } from "lucide-react";
+// import { CircleCheckBig } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
+  const [file, setFile] = useState(null);
+  const navigate = useNavigate();
+  console.log(file);
+  if (file) {
+    navigate("/media");
+  }
   return (
     <div
       id="createcapsule"
@@ -20,7 +28,7 @@ const Create = () => {
 
         <div className="flex items-center justify-center w-full">
           <label
-            htmlFor="dropzone-file"
+            htmlFor="media"
             className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -47,8 +55,13 @@ const Create = () => {
                 MP4, JPEG, JPG, GIF, WebM, Mov (MAX. 10MB)
               </p>
             </div>
-            <input id="dropzone-file" type="file" className="hidden" />
           </label>
+          <input
+            id="media"
+            type="file"
+            className="hidden"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
         </div>
 
         {/* <div className=" w-full flex flex-col items-center justify-center min-h-[30vh] mx-auto">

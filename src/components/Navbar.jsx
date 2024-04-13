@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { handleScroll } from "./handleScroll";
-import Web3Connection from "./web3-connection";
+import Web3Connection from "./web3-connection.jsx";
 import { Link } from "react-router-dom";
 import { TimerReset } from "lucide-react";
 
