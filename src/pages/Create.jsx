@@ -1,5 +1,4 @@
 // import { CircleCheckBig } from "lucide-react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { ethers } from "ethers";
@@ -14,7 +13,7 @@ const Create = () => {
   const [submitting, setSubmitting] = useState(0);
 
   const navigate = useNavigate();
-  console.log(file);
+  console.log(state);
   if (file) {
     navigate("/media");
   }
