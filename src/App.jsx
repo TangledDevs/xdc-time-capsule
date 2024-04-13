@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Review from "./pages/Review";
 import Navbar from "./components/Navbar";
 import MyMedia from "./pages/MyMedia";
+import Footer from "./components/Footer";
 
 function App() {
   const initialState = {};
@@ -22,6 +23,7 @@ function App() {
           {/* <Route path="/create" element={<Create />} /> */}
           <Route path="/review" element={<Review />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </GlobalContext.Provider>
   );

@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex items-center justify-between w-full h-16 max-w-screen-2xl">
-        <Link to="/" className="flex items-center mr-6 space-x-2">
+        <Link to="/" className="flex items-center mr-6 space-x-2 text-primary">
           <TimerReset />
           {/* <Icons className="w-6 h-6" /> */}
           <span className="font-bold">Time Capsule</span>

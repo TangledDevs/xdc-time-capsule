@@ -33,15 +33,20 @@ const MyMedia = () => {
             <img key={index} src={mediaImage} alt="media" />
           ))}
         </div>
-        <Button className="mt-20 text-[#3056d3] bg-white py-4 px-10 border-[#3056D3] border-2 w-fit">
+        <Button
+          variant="outline"
+          className="mt-20 py-4 px-10 text-primary hover:text-primary border-[#3056D3] border-2 w-fit"
+        >
           Edit Files
         </Button>
       </div>
       <div className="flex flex-col text-[#637381] bg-white px-6 lg:px-12 py-5 lg:py-10 gap-2">
-        <h1 className="text-lg lg:text-2xl font-bold text-black">
+        <h1 className="text-lg font-bold text-black lg:text-2xl">
           Who will get this capsule
         </h1>
-        <p className="text-lg lg:text-xl font-semibold text-black mt-2">Sender info</p>
+        <p className="mt-2 text-lg font-semibold text-black lg:text-xl">
+          Sender info
+        </p>
         <Label className="text-sm">Email</Label>
         <Input type="email" placeholder="example@gmail.com" required />
         <Label className="mt-3 text-sm">Wallet or ENs</Label>
@@ -65,7 +70,7 @@ const MyMedia = () => {
                 !date && "text-muted-foreground"
               )}
             >
-              <CalendarDays className="mr-2 h-4 w-4" />
+              <CalendarDays className="w-4 h-4 mr-2" />
               {date ? format(date, "PPP") : <span>Pick a date</span>}
             </Button>
           </PopoverTrigger>
