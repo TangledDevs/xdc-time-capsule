@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { handleScroll } from "./handleScroll";
+import Web3Connection from "./web3-connection";
 
 const Navbar = () => {
   let Links = [
@@ -11,14 +12,14 @@ const Navbar = () => {
   let [open, setOpen] = useState(false);
 
   return (
-    <div className="shadow-md w-full z-50 fixed top-0 left-0 px-4 py-5 bg-white">
-      <div className="md:flex mx-auto items-center justify-between bg-white md:px-14 px-7">
-        <div className="text-md py-0 cursor-pointer flex items-center">
+    <div className="fixed top-0 left-0 z-50 w-full px-4 py-5 bg-white shadow-md">
+      <div className="items-center justify-between mx-auto bg-white md:flex md:px-14 px-7">
+        <div className="flex items-center py-0 cursor-pointer text-md">
           <a href="#createcapsule" onClick={handleScroll}>
             <img
               src="/vite.svg"
               alt="vconnectglobal"
-              className="w-40 md:w-56 h-10"
+              className="w-40 h-10 md:w-56"
             />
           </a>
         </div>
@@ -37,7 +38,7 @@ const Navbar = () => {
           {Links.map((link) => (
             <li
               key={link.name}
-              className="md:ml-8 text-xl font-medium md:my-0 my-7"
+              className="text-xl font-medium md:ml-8 md:my-0 my-7"
             >
               <a
                 href={link.link}
@@ -45,16 +46,17 @@ const Navbar = () => {
                   handleScroll(e);
                   setOpen(false);
                 }}
-                className="text-black font-medium border-b-black hover:text-slate-700 duration-500"
+                className="font-medium text-black duration-500 border-b-black hover:text-slate-700"
               >
                 {link.name}
               </a>
             </li>
           ))}
         </ul>
-        <Button className="bg-[#3056d3] text-white p-4 rounded-lg">
+        {/* <Button className="bg-[#3056d3] text-white p-4 rounded-lg">
           Connect Wallet
-        </Button>
+        </Button> */}
+        <Web3Connection />
       </div>
     </div>
   );
