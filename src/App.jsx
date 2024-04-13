@@ -19,7 +19,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/media" element={<MyMedia />} />
+          {/* <Route path="/media" element={<MyMedia />} /> */}
           {/* <Route path="/create" element={<Create />} /> */}
           <Route path="/review" element={<Review />} />
         </Routes>
