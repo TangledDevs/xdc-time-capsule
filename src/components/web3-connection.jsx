@@ -4,7 +4,8 @@ import { abi as contractABI } from "../abi/constants";
 import { GlobalContext } from "../contexts/Context";
 import { Button } from "./ui/button";
 
-const contractAddress = "0x2Bb6E6CF90a5541d0225bd30037959C02b83a69d";
+// const contractAddress = "0x2Bb6E6CF90a5541d0225bd30037959C02b83a69d";
+const contractAddress = "0xFb5e3B582A2Caaea3B07D5fB8b4b98bCF91eb50b";
 
 const Web3Connection = () => {
   const [state, dispatch] = useContext(GlobalContext);
@@ -49,7 +50,11 @@ const Web3Connection = () => {
     }
   };
 
-  return <Button onClick={browserWalletConnect}>Connect Wallet</Button>;
+  return (
+    <Button onClick={browserWalletConnect}>
+      {state.contract && state.provider ? "Connected" : "Connect Wallet"}
+    </Button>
+  );
 };
 
 export default Web3Connection;

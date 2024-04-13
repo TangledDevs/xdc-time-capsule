@@ -1,6 +1,62 @@
 import { CircleCheckBig } from "lucide-react";
+import { useContext, useState } from "react";
+import { ethers } from "ethers";
+import { GlobalContext } from "../contexts/Context";
 
 const Create = () => {
+  const [state, dispatch] = useContext(GlobalContext);
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("");
+  const [dueDate, setDueDate] = useState(new Date());
+  const [submitting, setSubmitting] = useState(0);
+
+  const makeTimeCapsule = async () => {
+    if (title.length > 60) {
+      window.alert(
+        "Your title is too long. It should be less than 60 characters"
+      );
+    } else {
+      setSubmitting(1);
+      try {
+        let msgblob = new Blob([strEncodeUTF16(message).buffer]);
+        let titleblob = new Blob([strEncodeUTF16(title).buffer]);
+        let msgHash = (await state.ipfs.add(msgblob, {})).path;
+        let titleHash = (await state.ipfs.add(titleblob, {})).path;
+        (
+          await state.contract.registerTimeCapsule(
+            ethers.BigNumber.from(Math.floor(dueDate.getTime() / 1000)),
+            msgHash,
+            titleHash
+          )
+        )
+          .wait()
+          .then(async (receipt) => {
+            setSubmitting(2);
+          });
+      } catch (err) {
+        if (
+          err.message ===
+          "MetaMask Tx Signature: User denied transaction signature."
+        ) {
+          window.alert("User denied transaction");
+          setSubmitting(0);
+        } else {
+          dispatch({ type: "SET_ERROR", payload: err });
+        }
+      }
+    }
+  };
+
+  const strEncodeUTF16 = (str) => {
+    var buf = new ArrayBuffer(str.length * 2);
+    var bufView = new Uint16Array(buf);
+    for (var i = 0, strLen = str.length; i < strLen; i++) {
+      bufView[i] = str.charCodeAt(i);
+    }
+    return bufView;
+  };
+
   return (
     <div
       id="createcapsule"
@@ -47,7 +103,14 @@ const Create = () => {
                 MP4, JPEG, JPG, GIF, WebM, Mov (MAX. 10MB)
               </p>
             </div>
-            <input id="dropzone-file" type="file" className="hidden" />
+            <input
+              id="dropzone-file"
+              type="file"
+              className="hidden"
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+              }}
+            />
           </label>
         </div>
 
