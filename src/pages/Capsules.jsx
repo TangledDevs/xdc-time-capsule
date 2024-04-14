@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-
+import { Rings } from "react-loader-spinner";
 import { GlobalContext } from "../contexts/Context";
 import Capsule from "@/components/Capsule";
 // import OpenCapsule from "./OpenCapsule";
@@ -58,14 +58,23 @@ const Capsules = () => {
 
   if (connecting) {
     return (
-      <div className="flex h-[90vh] w-screen items-center justify-center">
-        Loading
+      <div className="flex h-[80vh] items-center justify-center">
+        <Rings
+          height="80"
+          width="80"
+          color="#2563EB"
+          radius="6"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="rings-loading"
+        />
       </div>
     );
   }
   if (tokenlist.length <= 0) {
     return (
-      <div className="flex h-[90vh] w-screen items-center justify-center">
+      <div className="flex h-[80vh] w-screen items-center justify-center">
         No time capsules to display
       </div>
     );
