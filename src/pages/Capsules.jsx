@@ -82,7 +82,7 @@ const Capsules = () => {
   return (
     <div>
       {
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-10 min-h-[80vh] pt-10 px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-10 min-h-[80vh] py-10 px-10">
           {tokenlist
             ?.slice()
             .reverse()

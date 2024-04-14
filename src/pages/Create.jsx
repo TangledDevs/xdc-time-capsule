@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { CalendarDays } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { CircleCheckBig } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Popover,
@@ -25,10 +26,12 @@ const Create = () => {
   const [dueDate, setDueDate] = useState(new Date());
   const [showPreview, setShowPreview] = useState(false);
 
+  const navigate = useNavigate();
+
   // console.log(state);
 
   const handleShowPreview = () => {
-    if (!title || !message || !dueDate) {
+    if (!title || !message || !dueDate || !file) {
       alert("fill all details");
       return;
     }
@@ -37,7 +40,7 @@ const Create = () => {
 
   console.log(state);
   const makeTimeCapsule = async () => {
-    if (!message || !title || !dueDate) {
+    if (!message || !title || !dueDate || !file) {
       alert("fill all details");
       return;
     }
@@ -61,6 +64,13 @@ const Create = () => {
         .then(async (receipt) => {
           console.log(receipt);
         });
+      setFile(null);
+      setMessage("");
+      setTitle("");
+      setDueDate(new Date());
+      setRecipient("");
+      setShowPreview(false);
+      navigate("/capsules");
     } catch (err) {
       if (
         err.message ===
@@ -73,14 +83,14 @@ const Create = () => {
     }
   };
 
-  const strEncodeUTF16 = (str) => {
-    var buf = new ArrayBuffer(str.length * 2);
-    var bufView = new Uint16Array(buf);
-    for (var i = 0, strLen = str.length; i < strLen; i++) {
-      bufView[i] = str.charCodeAt(i);
-    }
-    return bufView;
-  };
+  // const strEncodeUTF16 = (str) => {
+  //   var buf = new ArrayBuffer(str.length * 2);
+  //   var bufView = new Uint16Array(buf);
+  //   for (var i = 0, strLen = str.length; i < strLen; i++) {
+  //     bufView[i] = str.charCodeAt(i);
+  //   }
+  //   return bufView;
+  // };
 
   if (showPreview) {
     return (
@@ -100,11 +110,11 @@ const Create = () => {
             </div>
             <div className="flex flex-col md:grid grid-cols-2 gap-6">
               <div className="h-full">
-                {/* {file.type.includes("image/") ? (
+                {file.type.includes("image/") ? (
                   <img src={URL.createObjectURL(file)} className="h-full" />
                 ) : (
                   <video controls src={URL.createObjectURL(file)}></video>
-                )} */}
+                )}
               </div>
               <div className="flex flex-col h-full self-end gap-4 px-6 py-5 bg-white lg:px-12 lg:py-8 lg:gap-5">
                 <h1 className="text-xl font-bold text-black lg:text-2xl">
