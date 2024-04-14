@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 
 import { GlobalContext } from "../contexts/Context";
+import Capsule from "@/components/Capsule";
 // import OpenCapsule from "./OpenCapsule";
 
 const Capsules = () => {
@@ -8,6 +9,7 @@ const Capsules = () => {
   const [tokenlist, setTokenlist] = useState([]);
   const [connecting, setConnecting] = useState(false);
   //   const [open, setOpen] = useState();
+  console.log(state);
 
   useEffect(() => {
     const getTimeCapsuleList = async () => {
@@ -48,18 +50,40 @@ const Capsules = () => {
       }
       setTokenlist(newtokenlist);
       setConnecting(false);
+      console.log(newtokenlist);
     };
 
     getTimeCapsuleList();
   }, [state]);
 
   if (connecting) {
-    return <div>Loading</div>;
+    return (
+      <div className="flex h-[90vh] w-screen items-center justify-center">
+        Loading
+      </div>
+    );
   }
   if (tokenlist.length <= 0) {
-    return <div>No time capsules to display</div>;
+    return (
+      <div className="flex h-[90vh] w-screen items-center justify-center">
+        No time capsules to display
+      </div>
+    );
   }
-  return <div>Card</div>;
+  return (
+    <div>
+      {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-10 min-h-[80vh] pt-10 px-10">
+          {tokenlist
+            ?.slice()
+            .reverse()
+            .map((item, index) => (
+              <Capsule key={index} item={item} />
+            ))}
+        </div>
+      }
+    </div>
+  );
 };
 
 export default Capsules;

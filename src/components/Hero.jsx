@@ -2,6 +2,7 @@ import HeroImage from "../assets/Hero.png";
 import Dotted from "../assets/Dotted.png";
 import { Button } from "./ui/button";
 import { handleScroll } from "./handleScroll";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -25,12 +26,14 @@ const Hero = () => {
                 </a>
               </Button>
 
-              <Button
-                variant="outline"
-                className="border-primary text-primary hover:text-primary"
-              >
-                Open capsule
-              </Button>
+              <Link to="/capsules">
+                <Button
+                  variant="outline"
+                  className="border-primary text-primary hover:text-primary"
+                >
+                  Open capsule
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
