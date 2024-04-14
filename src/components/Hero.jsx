@@ -9,7 +9,7 @@ const Hero = () => {
       <div className="container items-center px-4 space-y-12 md:flex md:px-6">
         <div className="w-fit lg:w-1/2 h-fit">
           <div className="w-full flex flex-col gap-5 items-start h-full max-w-[768px] top-80 left-20">
-            <h1 className="text-4xl font-bold tracking-tighter text-primary">
+            <h1 className="text-4xl font-bold tracking-tighter text-primary sm:text-4xl md:text-5xl">
               The Greatest
               <br />
               way to remind the past
@@ -34,8 +34,8 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        <div className="w-[495px] h-[515px] hidden md:flex lg:w-1/2">
-          <div className="relative w-[495px] h-[515px] mx-auto">
+        <div className="hidden md:flex lg:w-1/2">
+          <div className="relative w-[495px] h-[515px] start-36">
             <img src={HeroImage} alt="Hero" className="z-20 mx-auto" />
             <img
               src={Dotted}
