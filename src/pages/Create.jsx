@@ -2,13 +2,14 @@ import { useContext, useState } from "react";
 import { ethers } from "ethers";
 import { GlobalContext } from "../contexts/Context";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { CalendarDays } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { CircleCheckBig } from "lucide-react";
+
 import {
   Popover,
   PopoverContent,
@@ -19,46 +20,57 @@ const Create = () => {
   const [state, dispatch] = useContext(GlobalContext);
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("");
   const [recipient, setRecipient] = useState("");
   const [dueDate, setDueDate] = useState(new Date());
-  const [submitting, setSubmitting] = useState(0);
+  const [showPreview, setShowPreview] = useState(false);
 
-  console.log(state);
+  // console.log(state);
 
-  const makeTimeCapsule = async () => {
-    if (!message || !recipient || !dueDate || !file) {
+  const handleShowPreview = () => {
+    if (!title || !message || !dueDate) {
       alert("fill all details");
       return;
     }
-    // setSubmitting(1);
-    // try {
-    //   let msgblob = new Blob([strEncodeUTF16(message).buffer]);
-    //   let titleblob = new Blob([strEncodeUTF16(title).buffer]);
-    //   let msgHash = (await state.ipfs.add(msgblob, {})).path;
-    //   let titleHash = (await state.ipfs.add(titleblob, {})).path;
-    //   (
-    //     await state.contract.registerTimeCapsule(
-    //       ethers.BigNumber.from(Math.floor(dueDate.getTime() / 1000)),
-    //       msgHash,
-    //       titleHash
-    //     )
-    //   )
-    //     .wait()
-    //     .then(async (receipt) => {
-    //       setSubmitting(2);
-    //     });
-    // } catch (err) {
-    //   if (
-    //     err.message ===
-    //     "MetaMask Tx Signature: User denied transaction signature."
-    //   ) {
-    //     window.alert("User denied transaction");
-    //     setSubmitting(0);
-    //   } else {
-    //     dispatch({ type: "SET_ERROR", payload: err });
-    //   }
-    // }
-    console.log(message, recipient, dueDate, file);
+    setShowPreview(true);
+  };
+
+  console.log(state);
+  const makeTimeCapsule = async () => {
+    if (!message || !title || !dueDate) {
+      alert("fill all details");
+      return;
+    }
+    try {
+      // let fileBlob = new Blob([file]);
+      // let msgblob = new Blob([strEncodeUTF16(message).buffer]);
+      // let titleblob = new Blob([strEncodeUTF16(title).buffer]);
+      // let fileHash = (await state.ipfs.add(fileBlob, {})).path;
+      // let msgHash = (await state.ipfs.add(msgblob, {})).path;
+      // let titleHash = (await state.ipfs.add(titleblob, {})).path;
+      (
+        await state.contract.registerTimeCapsule(
+          ethers.BigNumber.from(Math.floor(dueDate.getTime() / 1000)),
+          message,
+          title,
+          // fileHash,
+          [recipient]
+        )
+      )
+        .wait()
+        .then(async (receipt) => {
+          console.log(receipt);
+        });
+    } catch (err) {
+      if (
+        err.message ===
+        "MetaMask Tx Signature: User denied transaction signature."
+      ) {
+        window.alert("User denied transaction");
+      } else {
+        dispatch({ type: "SET_ERROR", payload: err });
+      }
+    }
   };
 
   const strEncodeUTF16 = (str) => {
@@ -70,12 +82,81 @@ const Create = () => {
     return bufView;
   };
 
+  if (showPreview) {
+    return (
+      <div className="flex flex-col justify-center w-full px-10 py-8 gap-4 lg:px-44 lg:py-20 bg-[#E9F9FF]">
+        <h5 className="font-medium text-md">ALMOST THERE</h5>
+        <h1 className="text-xl font-bold lg:text-3xl">
+          Let&apos;s review your time capsule.
+        </h1>
+        <div className="flex flex-col md:flex-row gap-5 md:gap-20">
+          <div className="hidden lg:flex lg:flex-col lg:gap-2">
+            <div className="mt-5 flex items-start gap-3 text-[#3056d3]">
+              <CircleCheckBig />
+              <div className="flex flex-col items-start gap-3 font-medium text-black">
+                <h3 className="font-bold">Your Media</h3>
+                <span>This is your time capsule</span>
+              </div>
+            </div>
+            <div className="flex flex-col md:grid grid-cols-2 gap-6">
+              <div className="h-full">
+                {/* {file.type.includes("image/") ? (
+                  <img src={URL.createObjectURL(file)} className="h-full" />
+                ) : (
+                  <video controls src={URL.createObjectURL(file)}></video>
+                )} */}
+              </div>
+              <div className="flex flex-col h-full self-end gap-4 px-6 py-5 bg-white lg:px-12 lg:py-8 lg:gap-5">
+                <h1 className="text-xl font-bold text-black lg:text-2xl">
+                  Review the information
+                </h1>
+                <p className="text-lg font-semibold text-black lg:text-xl">
+                  Receiver info
+                </p>
+                <Label className="text-muted-foreground">Title</Label>
+                <p className="border border-input bg-background px-3 py-2 rounded">
+                  {title}
+                </p>
+                <Label className="text-muted-foreground">Message</Label>
+                <p className="border border-input bg-background px-3 py-2 rounded">
+                  {message}
+                </p>
+                <Label className="text-muted-foreground">Wallet</Label>
+                <p className="border border-input bg-background px-3 py-2 rounded">
+                  {recipient}
+                </p>
+                <Label className="text-muted-foreground">Due Date</Label>
+                <p className="border border-input bg-background px-3 py-2 rounded">
+                  {format(dueDate, "PPP")}
+                </p>
+                <div className="flex items-center gap-8">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowPreview(false)}
+                    className="py-4 px-7 text-primary hover:text-primary border-[#3056D3] border-2"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={makeTimeCapsule}
+                    className="bg-[#3056d3] text-white py-4 px-7"
+                  >
+                    Send capsule
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       id="createcapsule"
-      className="min-h-[90vh] flex flex-col md:flex-row items-center w-full justify-center gap-4 md:gap-20 md:px-44 py-20 bg-[#E9F9FF]"
+      className="min-h-[90vh] flex flex-col md:grid grid-cols-2 items-center w-full justify-center gap-4 md:gap-6 md:px-44 py-20 bg-[#E9F9FF]"
     >
-      <div className="flex flex-col justify-center w-4/5 gap-2 space-y-4 md:w-full">
+      <div className="flex flex-col justify-center gap-2 space-y-4 md:w-full">
         <h2 className="text-3xl font-bold tracking-tighter text-center sm:text-4xl md:text-3xl text-primary">
           Upload your Time Capsule Here
         </h2>
@@ -123,13 +204,20 @@ const Create = () => {
           />
         </div>
       </div>
-
-      <div className="flex items-center justify-center w-full gap-10 px-10 py-8 lg:py-20">
-        <div className="flex flex-col text-[#637381] bg-white px-6 lg:px-12 py-5 lg:py-10 gap-2">
+      <div className="flex items-center justify-center w-full gap-10 px-10">
+        <div className="flex flex-col text-[#637381] w-full bg-white px-6 lg:px-12 py-5 lg:py-10 gap-2">
           <h1 className="text-lg font-bold text-black lg:text-2xl">
             Who will get this capsule
           </h1>
           <p className="text-xl font-semibold text-black">Receiver info</p>
+          <Label className="mt-3 text-sm">Title</Label>
+          <Input
+            type="text"
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            placeholder="Title"
+            required
+          />
           <Label className="mt-3 text-sm">Message</Label>
           <Input
             type="text"
@@ -170,7 +258,7 @@ const Create = () => {
             </PopoverContent>
           </Popover>
           {/* <Link to="/review"> */}
-          <Button onClick={makeTimeCapsule} className="w-full mt-2">
+          <Button onClick={handleShowPreview} className="w-full mt-2">
             Continue
           </Button>
           {/* </Link> */}
