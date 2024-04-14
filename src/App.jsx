@@ -6,6 +6,7 @@ import Review from "./pages/Review";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Capsules from "./pages/Capsules";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const initialState = {};
@@ -25,6 +26,7 @@ function App() {
           <Route path="/review" element={<Review />} />
         </Routes>
         <Footer />
+        <Toaster position="top-right" reverseOrder={false} />
       </BrowserRouter>
     </GlobalContext.Provider>
   );

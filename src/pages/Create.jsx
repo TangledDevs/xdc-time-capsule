@@ -10,6 +10,7 @@ import { CalendarDays } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { CircleCheckBig } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import {
   Popover,
@@ -33,6 +34,10 @@ const Create = () => {
   const handleShowPreview = () => {
     if (!title || !message || !dueDate || !file) {
       alert("fill all details");
+      return;
+    }
+    if (dueDate <= new Date()) {
+      alert("Please select a future date");
       return;
     }
     setShowPreview(true);
@@ -70,7 +75,10 @@ const Create = () => {
       setDueDate(new Date());
       setRecipient("");
       setShowPreview(false);
-      navigate("/capsules");
+
+      toast.success(
+        "Time Capsule created successfully!!\nThis will be reflected in your capsules soon"
+      );
     } catch (err) {
       if (
         err.message ===
@@ -99,7 +107,7 @@ const Create = () => {
         <h1 className="text-xl font-bold lg:text-3xl">
           Let&apos;s review your time capsule.
         </h1>
-        <div className="flex flex-col md:flex-row gap-5 md:gap-20">
+        <div className="flex flex-col gap-5 md:flex-row md:gap-20">
           <div className="hidden lg:flex lg:flex-col lg:gap-2">
             <div className="mt-5 flex items-start gap-3 text-[#3056d3]">
               <CircleCheckBig />
@@ -108,7 +116,7 @@ const Create = () => {
                 <span>This is your time capsule</span>
               </div>
             </div>
-            <div className="flex flex-col md:grid grid-cols-2 gap-6">
+            <div className="flex flex-col grid-cols-2 gap-6 md:grid">
               <div className="h-full">
                 {file.type.includes("image/") ? (
                   <img src={URL.createObjectURL(file)} className="h-full" />
@@ -116,7 +124,7 @@ const Create = () => {
                   <video controls src={URL.createObjectURL(file)}></video>
                 )}
               </div>
-              <div className="flex flex-col h-full self-end gap-4 px-6 py-5 bg-white lg:px-12 lg:py-8 lg:gap-5">
+              <div className="flex flex-col self-end h-full gap-4 px-6 py-5 bg-white lg:px-12 lg:py-8 lg:gap-5">
                 <h1 className="text-xl font-bold text-black lg:text-2xl">
                   Review the information
                 </h1>
@@ -124,19 +132,19 @@ const Create = () => {
                   Receiver info
                 </p>
                 <Label className="text-muted-foreground">Title</Label>
-                <p className="border border-input bg-background px-3 py-2 rounded">
+                <p className="px-3 py-2 border rounded border-input bg-background">
                   {title}
                 </p>
                 <Label className="text-muted-foreground">Message</Label>
-                <p className="border border-input bg-background px-3 py-2 rounded">
+                <p className="px-3 py-2 border rounded border-input bg-background">
                   {message}
                 </p>
                 <Label className="text-muted-foreground">Wallet</Label>
-                <p className="border border-input bg-background px-3 py-2 rounded">
+                <p className="px-3 py-2 border rounded border-input bg-background">
                   {recipient}
                 </p>
                 <Label className="text-muted-foreground">Due Date</Label>
-                <p className="border border-input bg-background px-3 py-2 rounded">
+                <p className="px-3 py-2 border rounded border-input bg-background">
                   {format(dueDate, "PPP")}
                 </p>
                 <div className="flex items-center gap-8">
